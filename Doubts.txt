@@ -83,3 +83,9 @@ handlePage = async (event, value) => {
 The event parameter represents the event that triggered the function. In this case, it's the page change event.
 The value parameter represents the new value of the page. It is provided by the Pagination component and is used to update the currentPage state.
 In summary, the callback function ensures that the API call is made after the state has been updated, and async/await is used to handle asynchronous operations, such as fetching data from the API. The onChange event is triggered when the user interacts with the Pagination component, and it passes the new page value to the handlePage function.
+
+----------------------------------------------------------------------------------------------
+
+How to use material ui :
+
+npm install @mui/material @emotion/react @emotion/styled

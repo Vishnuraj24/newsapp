@@ -51,6 +51,7 @@ export default class News extends Component {
             );
           })}
         </div>
+        {/* using material ui -- pagination */}
         <div className="container my-3 d-flex justify-content-center">
           <Stack spacing={2}>
             <Pagination
