@@ -89,3 +89,26 @@ In summary, the callback function ensures that the API call is made after the st
 How to use material ui :
 
 npm install @mui/material @emotion/react @emotion/styled
+
+
+-------------------------------------
+usage of react router dom
+
+npm install react-router-dom
+
+ <BrowserRouter>
+        <Navbar
+          Title="TextUtils"
+          mode={mode}
+          toggle={onToggle}
+          showAlert={showAlert}
+        ></Navbar>
+        <Alert alert={alert}></Alert>
+        <Routes>
+          <Route path="/" element={<Textform mode={mode}></Textform>}></Route>
+          <Route path="/about" element={<About mode={mode}></About>}></Route>
+        </Routes>
+   </BrowserRouter>
+
+
+   replace <a> --> <link> and <href ---> to
