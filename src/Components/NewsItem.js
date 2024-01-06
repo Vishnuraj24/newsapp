@@ -2,11 +2,18 @@ import React, { Component } from "react";
 
 export default class NewsItem extends Component {
   render() {
-    let { title, description, imgurl, url } = this.props;
+    // destructuring
+    let { title, description, imgurl, url, author, date, source } = this.props;
     return (
       <div>
         <div className="col">
           <div className="card h-100">
+            <span
+              className="position-absolute top-0 translate-middle badge rounded-pill bg-danger"
+              style={{ left: "85%", zIndex: "1" }}
+            >
+              {source}
+            </span>
             <img
               src={
                 imgurl === null
@@ -29,6 +36,12 @@ export default class NewsItem extends Component {
                   {" "}
                   <strong>readmore</strong>
                 </a>
+              </p>
+              <p className="card-text">
+                <small className="text-danger">
+                  By {!author ? "Unknown" : author} on{" "}
+                  {new Date(date).toGMTString()}
+                </small>
               </p>
             </div>
           </div>

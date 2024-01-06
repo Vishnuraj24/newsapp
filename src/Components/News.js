@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import NewsItem from "./NewsItem";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
+// import Pagination from "@mui/material/Pagination";
+// import Stack from "@mui/material/Stack";
 import Spinner from "./Spinner";
 import PropTypes from "prop-types";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default class News extends Component {
   // default prototype
@@ -29,61 +30,77 @@ export default class News extends Component {
   }
 
   async componentDidMount() {
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=1fc9511d6d10481798397cd157687c1c&page=1&pageSize=${this.props.pageSize}`;
+    this.props.setProgress(10);
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=732d5068f3e04b4383f8176ba19b207e&page=1&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
     let data = await fetch(url);
+    this.props.setProgress(30);
     let parseddata = await data.json();
+    this.props.setProgress(50);
     this.setState({
       articles: parseddata.articles,
       totalPages: parseddata.totalResults,
       loading: false,
     });
+    this.props.setProgress(100);
   }
 
-  handlePage = async (event, value) => {
-    this.setState({ currentPage: value }, async () => {
-      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=1fc9511d6d10481798397cd157687c1c&page=${this.state.currentPage}&pageSize=${this.props.pageSize}`;
-      this.setState({ loading: true });
+  // handlePage = async (event, value) => {
+  //   this.setState({ currentPage: value }, async () => {
+  //     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=732d5068f3e04b4383f8176ba19b207e&page=${this.state.currentPage}&pageSize=${this.props.pageSize}`;
+  //     this.setState({ loading: true });
+  //     let data = await fetch(url);
+  //     let parseddata = await data.json();
+  //     this.setState({ articles: parseddata.articles, loading: false });
+  //   });
+  // };
+
+  fetchMoreData = async () => {
+    this.setState({ currentPage: this.state.currentPage + 1 }, async () => {
+      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=732d5068f3e04b4383f8176ba19b207e&page=${this.state.currentPage}&pageSize=${this.props.pageSize}`;
       let data = await fetch(url);
       let parseddata = await data.json();
-      this.setState({ articles: parseddata.articles, loading: false });
+      this.setState({
+        articles: this.state.articles.concat(parseddata.articles),
+        totalPages: parseddata.totalResults,
+      });
     });
   };
 
   render() {
     return (
-      <div className="container my-3">
-        <h1 className="text-center">Newsmonkey - TopHeadlines</h1>
+      <>
+        <h1 className="text-center">Newsmonkey - {this.props.category}</h1>
         {this.state.loading && <Spinner></Spinner>}
-        {!this.state.loading && (
-          <div className="row row-cols-1 row-cols-md-3 g-4 my-3">
-            {this.state.articles.map((element) => {
-              return (
-                // if there is no key it will throw an error - unique
-                <NewsItem
-                  key={element.url}
-                  title={element.title}
-                  description={element.description}
-                  imgurl={element.urlToImage}
-                  url={element.url}
-                ></NewsItem>
-              );
-            })}
+        <InfiniteScroll
+          dataLength={this.state.articles.length}
+          next={this.fetchMoreData}
+          hasMore={this.state.articles.length !== this.state.totalPages}
+          loader={<Spinner></Spinner>}
+          style={{ overflow: "hidden" }} //to hide the scroll bars thanks to gpt
+        >
+          <div className="container">
+            <div className="row row-cols-1 row-cols-md-3 g-4 my-3">
+              {this.state.articles.map((element) => {
+                return (
+                  // if there is no key it will throw an error - unique
+                  <div key={element.url} className="col-md-4">
+                    <NewsItem
+                      title={element.title}
+                      description={element.description}
+                      imgurl={element.urlToImage}
+                      url={element.url}
+                      author={element.author}
+                      date={element.publishedAt}
+                      source={element.source.name}
+                    ></NewsItem>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        )}
-        {/* using material ui -- pagination */}
-        <div className="container my-3 d-flex justify-content-center">
-          <Stack spacing={2}>
-            <Pagination
-              count={Math.round(this.state.totalPages / this.props.pageSize)} // Set the total number of pages
-              color="secondary"
-              size="large"
-              page={this.state.currentPage}
-              onChange={this.handlePage}
-            />
-          </Stack>
-        </div>
-      </div>
+        </InfiniteScroll>
+      </>
     );
   }
 }
