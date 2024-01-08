@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
 
 export default class App extends Component {
+  apikey = process.env.REACT_APP_API_KEY;
   state = {
     progress: 10,
   };
@@ -27,6 +28,7 @@ export default class App extends Component {
               element={
                 <News
                   setProgress={this.setProgress}
+                  apikey={this.apikey}
                   key="general"
                   country="in"
                   category="general"
@@ -39,6 +41,7 @@ export default class App extends Component {
               element={
                 <News
                   setProgress={this.setProgress}
+                  apikey={this.apikey}
                   key="business"
                   country="in"
                   category="business"
@@ -51,6 +54,7 @@ export default class App extends Component {
               element={
                 <News
                   setProgress={this.setProgress}
+                  apikey={this.apikey}
                   key="entertainment"
                   country="in"
                   category="entertainment"
@@ -63,6 +67,7 @@ export default class App extends Component {
               element={
                 <News
                   setProgress={this.setProgress}
+                  apikey={this.apikey}
                   key="health"
                   country="in"
                   category="health"
@@ -75,6 +80,7 @@ export default class App extends Component {
               element={
                 <News
                   setProgress={this.setProgress}
+                  apikey={this.apikey}
                   key="science"
                   country="in"
                   category="science"
@@ -87,6 +93,7 @@ export default class App extends Component {
               element={
                 <News
                   setProgress={this.setProgress}
+                  apikey={this.apikey}
                   key="sports"
                   country="in"
                   category="sports"
@@ -99,6 +106,7 @@ export default class App extends Component {
               element={
                 <News
                   setProgress={this.setProgress}
+                  apikey={this.apikey}
                   key="technology"
                   country="in"
                   category="technology"

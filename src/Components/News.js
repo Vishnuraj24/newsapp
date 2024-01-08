@@ -31,7 +31,7 @@ export default class News extends Component {
 
   async componentDidMount() {
     this.props.setProgress(10);
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=732d5068f3e04b4383f8176ba19b207e&page=1&pageSize=${this.props.pageSize}`;
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=1&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
     let data = await fetch(url);
     this.props.setProgress(30);
@@ -47,7 +47,7 @@ export default class News extends Component {
 
   // handlePage = async (event, value) => {
   //   this.setState({ currentPage: value }, async () => {
-  //     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=732d5068f3e04b4383f8176ba19b207e&page=${this.state.currentPage}&pageSize=${this.props.pageSize}`;
+  //     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=${this.state.currentPage}&pageSize=${this.props.pageSize}`;
   //     this.setState({ loading: true });
   //     let data = await fetch(url);
   //     let parseddata = await data.json();
@@ -57,7 +57,7 @@ export default class News extends Component {
 
   fetchMoreData = async () => {
     this.setState({ currentPage: this.state.currentPage + 1 }, async () => {
-      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=732d5068f3e04b4383f8176ba19b207e&page=${this.state.currentPage}&pageSize=${this.props.pageSize}`;
+      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=${this.state.currentPage}&pageSize=${this.props.pageSize}`;
       let data = await fetch(url);
       let parseddata = await data.json();
       this.setState({
